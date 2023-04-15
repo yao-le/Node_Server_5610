@@ -19,7 +19,7 @@ const findAlbums = async (req, res) => {
 }
 
 export default (app) => {
-    // TODO: should we enocde publisher id into the URL?
+    // TODO: should we encode publisher id into the URL?
     app.post('/api/albums', createAlbum)
     app.get('/api/albums', findAlbums)
 }
