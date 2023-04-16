@@ -1,8 +1,11 @@
 import * as collectionsDao from "../dao/collections-dao.js"
 
 const createCollection = async (req, res) => {
-    const collection = req.body
-    const insertedCollection = collectionsDao.createCollection(collection)
+    const collectionName = req.body
+    const viewer = req.session['currentUser']
+    const trackId = req.params.tid
+    const newCollection = {name: collectionName, viewer: viewer._id, track: trackId}
+    const insertedCollection = collectionsDao.createCollection(newCollection)
     res.json(insertedCollection)
 }
 
@@ -27,7 +30,7 @@ const getAllCollectionsByViewer = async (req, res) => {
 
 export default (app) => {
 
-    app.post('/api/collections', createCollection)
+    app.post('/api/collections/:tid', createCollection)
     app.delete('/api/collections/:cid', deleteCollectionById)
     app.put('/api/collections/:cid', updateCollectionById)
     app.get('/api/collections/:vid', getAllCollectionsByViewer)
