@@ -13,22 +13,22 @@ const register = async (req, res) => {
     res.json(newPublisher)
 }
 
-const login = async (req, res) => {
-    const name = req.body.name;
-    const password = req.body.password;
-    const user = await publishersDao.findPublisherByCredentials(name, password);
-    if (user) {
-        req.session["currentUser"] = user;
-        res.json(user);
-    } else {
-        res.sendStatus(404);
-    }
-}
+// const login = async (req, res) => {
+//     const name = req.body.name;
+//     const password = req.body.password;
+//     const user = await publishersDao.findPublisherByCredentials(name, password);
+//     if (user) {
+//         req.session["currentUser"] = user;
+//         res.json(user);
+//     } else {
+//         res.sendStatus(404);
+//     }
+// }
 
-const logout = async (req, res) => {
-    req.session.destroy();
-    res.sendStatus(200);
-};
+// const logout = async (req, res) => {
+//     req.session.destroy();
+//     res.sendStatus(200);
+// };
 
 // To update one's profile
 const updatePublisher = async (req, res) => {
@@ -51,10 +51,11 @@ const findAllPublishers = async (req, res) => {
     res.json(publishers)
 }
 
+
 export default (app) => {
     app.post("/api/publishers/register", register)
-    app.post("/api/publishers/login", login)
-    app.post("/api/publishers/logout", logout)
+    //app.post("/api/publishers/login", login)
+    //app.post("/api/publishers/logout", logout)
     app.put("/api/publishers/:publisherId", updatePublisher)
     app.delete("/api/publishers/:publisherId", deletePublisher)
     app.get("/api/publishers", findAllPublishers)

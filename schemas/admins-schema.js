@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const adminsSchema = new mongoose.Schema({
-    name: {type: String, unique: true, required: true},
-    password: {type: String, required: true}
+    firstName: String,
+    lastName: String,
 }, {collection: 'admins'})
 
 export default adminsSchema;

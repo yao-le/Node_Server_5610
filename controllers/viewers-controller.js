@@ -15,17 +15,17 @@ const register = async (req, res) => {
     res.json(newViewer)
 }
 
-const login = async (req, res) => {
-    const name = req.body.name;
-    const password = req.body.password;
-    const user = await viewersDao.findViewerByCredentials(name, password);
-    if (user) {
-        req.session["currentUser"] = user;
-        res.json(user);
-    } else {
-        res.sendStatus(404);
-    }
-}
+// const login = async (req, res) => {
+//     const name = req.body.name;
+//     const password = req.body.password;
+//     const user = await viewersDao.findViewerByCredentials(name, password);
+//     if (user) {
+//         req.session["currentUser"] = user;
+//         res.json(user);
+//     } else {
+//         res.sendStatus(404);
+//     }
+// }
 
 // To update one's profile
 const updateViewer = async (req, res) => {
@@ -44,10 +44,10 @@ const deleteViewer = async (req, res) => {
 
 }
 
-const logout = async (req, res) => {
-    req.session.destroy();
-    res.sendStatus(200);
-};
+// const logout = async (req, res) => {
+//     req.session.destroy();
+//     res.sendStatus(200);
+// };
 
 const findAllViewers = async (req, res) => {
     const viewers = await viewersDao.findAllViewers();
@@ -56,8 +56,8 @@ const findAllViewers = async (req, res) => {
 
 export default (app) => {
     app.post("/api/viewers/register", register)
-    app.post("/api/viewers/login", login)
-    app.post("/api/viewers/logout", logout)
+    //app.post("/api/viewers/login", login)
+    //app.post("/api/viewers/logout", logout)
     app.put("/api/viewers/:viewerId", updateViewer)
     app.delete("/api/viewers/:viewerId", deleteViewer)
     app.get("/api/viewers", findAllViewers)
