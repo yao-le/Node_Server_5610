@@ -10,6 +10,7 @@ import viewersController from "./controllers/viewers-controller.js";
 import adminsController from "./controllers/admins-controller.js";
 import baseUsersController from "./controllers/users-controller.js";
 import commentsController from "./controllers/comments-controller.js";
+import likeTracksController from "./controllers/likeTracks-controller.js";
 
 // hardcode in server for convenience
 const CONNECTION_STRING = 'mongodb://127.0.0.1:27017/musicApp'
@@ -39,6 +40,7 @@ adminsController(app);
 
 baseUsersController(app);
 commentsController(app);
+likeTracksController(app);
 
 
 
