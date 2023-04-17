@@ -25,3 +25,7 @@ export const deleteComment = async (commentId) => {
 export const updateComment = async (commentId, comment) => {
     return commentsModel.updateOne({_id: commentId}, {$set: comment});
 };
+
+export const deleteCommentsByUserId = async (userId) => {
+    return commentsModel.deleteMany({commenter: userId});
+}

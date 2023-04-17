@@ -29,16 +29,22 @@ const findUserById = async (req, res) => {
     }
 }
 
-// const deleteUser = async (req, res) => {
-//     const uid = req.params.userId;
-//     const status = await usersDao.deleteUser(uid);
-//     res.send(status)
-// }
+const findAllUsers = async (req, res) => {
+    const users = await usersDao.findAllUsers();
+    res.json(users)
+}
+
+const deleteUser = async (req, res) => {
+    const uid = req.params.userId;
+    const status = await usersDao.deleteUser(uid);
+    res.send(status)
+}
 
 
 export default (app) => {
     app.get("/api/users/:userId", findUserById)
+    app.get("/api/users", findAllUsers)
     app.post("/api/users/login", login)
     app.post("/api/users/logout", logout)
-    // app.delete("/api/users/:userId", deleteUser)
+    app.delete("/api/users/:userId", deleteUser)
 }

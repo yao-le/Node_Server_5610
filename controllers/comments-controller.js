@@ -42,6 +42,12 @@ const deleteComment = async (req, res) => {
     res.send(status);
 };
 
+const deleteCommentsByUserId = async (req, res) => {
+    const userId = req.params.userId;
+    const status = await commentsDao.deleteCommentsByUserId(userId);
+    res.send(status);
+}
+
 export default (app) => {
     app.get("/api/comments", findAllComments);
     app.get("/api/comments/album/:albumId", findCommentsByAlbumId);
@@ -49,4 +55,5 @@ export default (app) => {
     app.post("/api/comments", createComment);
     app.put("/api/comments/:commentId", updateComment);
     app.delete("/api/comments/:commentId", deleteComment);
+    app.delete("/api/comments/user/:userId", deleteCommentsByUserId);
 }
