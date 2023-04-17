@@ -8,10 +8,15 @@ import tracksController from "./controllers/tracks-controller.js";
 import publishersController from "./controllers/publishers-controller.js";
 import viewersController from "./controllers/viewers-controller.js";
 import adminsController from "./controllers/admins-controller.js";
+<<<<<<< HEAD
 import baseUsersController from "./controllers/users-controller.js";
 import commentsController from "./controllers/comments-controller.js";
 import likeTracksController from "./controllers/likeTracks-controller.js";
 import collectAlbumsController from "./controllers/collectAlbums-controller.js";
+=======
+import collectionsController from "./controllers/collections-controller.js";
+import followsController from "./controllers/follows-controller.js";
+>>>>>>> zhou
 
 // hardcode in server for convenience
 const CONNECTION_STRING = 'mongodb://127.0.0.1:27017/musicApp'
@@ -38,6 +43,8 @@ tracksController(app);
 publishersController(app);
 viewersController(app);
 adminsController(app);
+collectionsController(app);
+followsController(app);
 
 baseUsersController(app);
 commentsController(app);

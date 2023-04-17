@@ -13,13 +13,35 @@ const createAlbum = async (req, res) => {
     res.json(insertedAlbum)
 }
 
-const findAlbums = async (req, res) => {
-    const albums = await albumsDao.findAlbums();
+const findAlbumsByPublisher = async (req, res) => {
+    const pid = req.params.pid
+    const albums = await albumsDao.findAlbumsByPublisherId(pid);
     res.json(albums)
 }
 
+
+const findAllAlbums = async (req, res) => {
+    const albums = await albumsDao.findAllAlbums();
+    res.json(albums)
+}
+
+const deleteAlbumById = async (req, res) => {
+    const aid = req.params.aid;
+    const status = await albumsDao.deleteOneAlbumByAlbumId(aid);
+    res.send(status)
+
+}
+
+const updateAlbumById = async (req, res) => {
+    const aid = req.params.aid;
+    const status = await albumsDao.updateOneAlbumByAlbumId(aid);
+    res.send(status)
+}
+
 export default (app) => {
-    // TODO: should we enocde publisher id into the URL?
-    app.post('/api/albums', createAlbum)
-    app.get('/api/albums', findAlbums)
+    app.post('/api/albums/:pid', createAlbum)
+    app.get('/api/albums', findAllAlbums)
+    app.get('/api/albums/:pid', findAlbumsByPublisher)
+    app.delete('/api/albums/:aid', deleteAlbumById)
+    app.update('/api/albums/:aid', updateAlbumById)
 }
