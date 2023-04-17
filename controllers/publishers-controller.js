@@ -35,7 +35,6 @@ const updatePublisher = async (req, res) => {
     const pid = req.params.publisherId;
     const status = await publishersDao.updatePublisher(pid, req.body)
     res.send(status)
-
 }
 
 // delete publisher, can be used by admin
