@@ -43,5 +43,5 @@ export default (app) => {
     app.get('/api/albums', findAllAlbums)
     app.get('/api/albums/:pid', findAlbumsByPublisher)
     app.delete('/api/albums/:aid', deleteAlbumById)
-    app.update('/api/albums/:aid', updateAlbumById)
+    app.put('/api/albums/:aid', updateAlbumById)
 }
