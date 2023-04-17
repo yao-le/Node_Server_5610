@@ -6,7 +6,7 @@ const register = async (req, res) => {
     const admin = await adminsDao.findAdminByName(name);
     if (admin) {
         res.sendStatus(409);
-        return;
+        return;å
     }
     const newAdmin = await adminsDao.createAdmin(req.body);
     req.session["currentUser"] = newAdmin;
@@ -27,10 +27,15 @@ const login = async (req, res) => {
 
 // To update one's profile
 const updateAdmin = async (req, res) => {
+    const currentAdmin = req.session["currentUser"];
+    if(!currentAdmin) {
+        res.sendStatus(403);
+        return;
+    }
+    req.session["currentUser"] = req.body;
     const aid = req.params.adminId;
     const status = await adminsDao.updateAdmin(aid, req.body)
     res.send(status)
-
 }
 
 // delete by admin itself
@@ -38,9 +43,8 @@ const deleteAdmin = async (req, res) => {
     const aid = req.params.adminId;
     const status = await adminsDao.deleteAdmin(aid);
     res.send(status)
-
-
 }
+
 
 const logout = async (req, res) => {
     req.session.destroy();
@@ -52,6 +56,15 @@ const findAllAdmins = async (req, res) => {
     res.json(admins)
 }
 
+const getAdminProfile = async (req, res) => {
+    const admin = req.session["currentUser"];
+    if(!admin) {
+        res.sendStatus(403);
+        return;
+    }
+    res.json(admin);
+}
+
 export default (app) => {
     app.post("/api/admins/register", register)
     app.post("/api/admins/login", login)
@@ -59,4 +72,5 @@ export default (app) => {
     app.put("/api/admins/:adminId", updateAdmin)
     app.delete("/api/admins/:adminId", deleteAdmin)
     app.get("/api/admins", findAllAdmins)
+    app.get("/api/admins/profile", getAdminProfile)
 }
