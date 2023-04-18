@@ -5,5 +5,6 @@ export const findAllTracks = () => tracksModel.find();
 export const findAllTracksByAlbum = (albumId) => tracksModel.find({album: albumId})
 export const updateTrackById = (trackId, track) => tracksModel.updateOne({_id: trackId}, track)
 export const deleteTrackById = (trackId) => tracksModel.deleteOne({_id: trackId})
+export const findTrackById = (trackId) => tracksModel.findById(trackId)
 
-
+export const deleteTracksByAlbumId = (albumId) => tracksModel.deleteMany({album: albumId})

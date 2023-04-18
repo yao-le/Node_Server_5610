@@ -1,8 +1,8 @@
 import albumsModel from "../models/albums-model.js";
 
 export const createAlbum = (album) => albumsModel.create(album);
-export const findAllAlbums = () => albumsModel.find();
-export const findAlbumsByPublisherId = (publisherId) => albumsModel.find({publisher: publisherId});
+export const findAllAlbums = () => albumsModel.find().sort({createdAt: -1});
+export const findAlbumsByPublisherId = (publisherId) => albumsModel.find({publisher: publisherId}).sort({createdAt: -1});
 export const findOneAlbumById = (albumId) => albumsModel.findById(albumId);
 export const deleteOneAlbumOfPublisher =
     (albumName, publisherId) => albumsModel.deleteOne({publisher: publisherId, name: albumName})

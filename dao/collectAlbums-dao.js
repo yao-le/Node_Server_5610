@@ -9,7 +9,7 @@ export const findCollectedByUserId = async (userId) =>
 // if the user has collected the album, return the object
 // have used the spotify album id to specify the album!!!
 export const findCollectAlbum = async(userId, albumId) =>
-    collectAlbumsModel.findOne({userId: userId, spotifyAlbumId: albumId});
+    collectAlbumsModel.findOne({userId: userId, albumId: albumId});
 
 
 export const createCollectAlbum = async (collectRelation) =>
@@ -17,5 +17,5 @@ export const createCollectAlbum = async (collectRelation) =>
 
 
 export const deleteCollectAlbum = async (userId, albumId) => {
-    return collectAlbumsModel.deleteOne({userId: userId, spotifyAlbumId: albumId});
+    return collectAlbumsModel.deleteOne({userId: userId, albumId: albumId});
 };

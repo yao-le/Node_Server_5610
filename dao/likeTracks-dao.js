@@ -9,10 +9,10 @@ export const findLikedByUserId = async (userId) =>
 // if the user has liked the track, return the likeTrack object
 // use the spotify track id to specify the track
 export const findLikeTrack = async(userId, trackId) =>
-    likeTracksModel.findOne({userId: userId, spotifyTrackId: trackId});
+    likeTracksModel.findOne({userId: userId, trackId: trackId});
 
 export const createLikeTrack= async (likeRelation) => likeTracksModel.create(likeRelation);
 
 export const deleteLikeTrack = async (userId, trackId) => {
-    return likeTracksModel.deleteOne({userId: userId, spotifyTrackId: trackId});
+    return likeTracksModel.deleteOne({userId: userId, trackId: trackId});
 };

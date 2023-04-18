@@ -1,16 +1,9 @@
 import * as albumsDao from "../dao/albums-dao.js"
 
 const createAlbum = async (req, res) => {
-    const newAlbum = req.body;
-    // TODO: how to get publisher id by request
-    // here I use params, supposing that the path for the publisher has its id
-    const currentPublisher = req.params.pid
-    newAlbum.publisher = currentPublisher;
-    // TODO: how to enable uploading pictures and store in database
-    // Here I just add a default pic for album cover
-    newAlbum.coverPic = "../pics/albumDemo.jpg"
-    const insertedAlbum = await albumsDao.createAlbum(newAlbum);
-    res.json(insertedAlbum)
+    console.log(req.body);
+    const newAlbum = await albumsDao.createAlbum(req.body);
+    res.json(newAlbum);
 }
 
 const findAlbumsByPublisher = async (req, res) => {
@@ -19,6 +12,11 @@ const findAlbumsByPublisher = async (req, res) => {
     res.json(albums)
 }
 
+const getAlbumById = async (req, res) => {
+    const aid = req.params.aid;
+    const album = await albumsDao.findOneAlbumById(aid);
+    res.json(album);
+}
 
 const findAllAlbums = async (req, res) => {
     const albums = await albumsDao.findAllAlbums();
@@ -34,14 +32,15 @@ const deleteAlbumById = async (req, res) => {
 
 const updateAlbumById = async (req, res) => {
     const aid = req.params.aid;
-    const status = await albumsDao.updateOneAlbumByAlbumId(aid);
+    const status = await albumsDao.updateOneAlbumByAlbumId(aid, req.body);
     res.send(status)
 }
 
 export default (app) => {
-    app.post('/api/albums/:pid', createAlbum)
+    app.post('/api/albums', createAlbum)
     app.get('/api/albums', findAllAlbums)
-    app.get('/api/albums/:pid', findAlbumsByPublisher)
+    app.get('/api/albums/:aid', getAlbumById);
+    app.get('/api/albums/publisher/:pid', findAlbumsByPublisher)
     app.delete('/api/albums/:aid', deleteAlbumById)
     app.put('/api/albums/:aid', updateAlbumById)
 }
