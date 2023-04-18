@@ -1,4 +1,6 @@
 import * as publishersDao from "../dao/publishers-dao.js"
+import fs from "fs"
+
 
 const register = async (req, res) => {
     const name = req.body.name;
@@ -32,8 +34,13 @@ const logout = async (req, res) => {
 
 // To update one's profile
 const updatePublisher = async (req, res) => {
+    if(!req.session["currentUser"]) {
+        res.sendStatus(403);
+        return;
+    }
     const pid = req.params.publisherId;
     const status = await publishersDao.updatePublisher(pid, req.body)
+    req.session["currentUser"] = req.body;
     res.send(status)
 }
 
@@ -42,7 +49,6 @@ const deletePublisher = async (req, res) => {
     const pid = req.params.publisherId;
     const status = await publishersDao.deletePublisher(pid);
     res.send(status)
-
 }
 
 const findAllPublishers = async (req, res) => {
@@ -50,11 +56,49 @@ const findAllPublishers = async (req, res) => {
     res.json(publishers)
 }
 
-export default (app) => {
+const getPublisherProfile = async (req, res) => {
+    const publisher = req.session["currentUser"];
+    if(!publisher) {
+        res.sendStatus(403);
+        return;
+    }
+    res.json(publisher)
+}
+
+// upload profile image
+const uploadProfileImg = async (req, res) => {
+    const publisher = req.session["currentUser"];
+    if(!publisher) {
+        res.sendStatus(403);
+        return;
+    }
+    const pid = publisher._id;
+    const newPublisher = {...publisher, portrait: req.file.filename};
+    const url = await publishersDao.updatePublisher(pid, newPublisher);
+    req.session["currentUser"] = newPublisher;
+    res.sendStatus(200)
+}
+
+// get profile image
+const getProfileImg = async (req, res) => {
+    const publisher = req.session["currentUser"];
+    if(!publisher) {
+        res.sendStatus(403);
+        return;
+    }
+    const img = publisher.portrait;
+    const readStream = fs.createReadStream(`./public/images/${img}`)
+    readStream.pipe(res)
+}
+
+export default (app, upload) => {
     app.post("/api/publishers/register", register)
     app.post("/api/publishers/login", login)
     app.post("/api/publishers/logout", logout)
     app.put("/api/publishers/:publisherId", updatePublisher)
     app.delete("/api/publishers/:publisherId", deletePublisher)
     app.get("/api/publishers", findAllPublishers)
+    app.get("/api/publishers/profile", getPublisherProfile)
+    app.post("/api/publishers/profile/img", upload.single("portrait"), uploadProfileImg)
+    app.get("/api/publishers/profile/img", getProfileImg)
 }
