@@ -35,5 +35,4 @@ export default (app) => {
     app.put('/api/collections/:cid', updateCollectionById)
     app.get('/api/collections/:vid', getAllCollectionsByViewer)
 
-
 }
