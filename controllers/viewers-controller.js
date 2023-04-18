@@ -29,10 +29,15 @@ const login = async (req, res) => {
 
 // To update one's profile
 const updateViewer = async (req, res) => {
+    const currentViewer = req.session["currentUser"];
+    if (!currentViewer) {
+        res.sendStatus(403);
+        return;
+    }
     const vid = req.params.viewerId;
     const status = await viewersDao.updateViewer(vid, req.body)
+    req.session["currentUser"] = {...req.session["currentUser"], ...req.body}
     res.send(status)
-
 }
 
 // delete viewer, can be used by admin
@@ -40,8 +45,6 @@ const deleteViewer = async (req, res) => {
     const vid = req.params.viewerId;
     const status = await viewersDao.deleteViewer(vid);
     res.send(status)
-
-
 }
 
 const logout = async (req, res) => {
@@ -54,6 +57,15 @@ const findAllViewers = async (req, res) => {
     res.json(viewers)
 }
 
+const getViewerProfile = async (req, res) => {
+    const viewer = req.session["currentUser"];
+    if(!viewer) {
+        res.sendStatus(403);
+        return;
+    }
+    res.json(viewer)
+}
+
 export default (app) => {
     app.post("/api/viewers/register", register)
     app.post("/api/viewers/login", login)
@@ -61,4 +73,5 @@ export default (app) => {
     app.put("/api/viewers/:viewerId", updateViewer)
     app.delete("/api/viewers/:viewerId", deleteViewer)
     app.get("/api/viewers", findAllViewers)
+    app.get("/api/viewers/profile", getViewerProfile)
 }

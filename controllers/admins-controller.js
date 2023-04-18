@@ -32,9 +32,9 @@ const updateAdmin = async (req, res) => {
         res.sendStatus(403);
         return;
     }
-    req.session["currentUser"] = req.body;
     const aid = req.params.adminId;
     const status = await adminsDao.updateAdmin(aid, req.body)
+    req.session["currentUser"] = {...req.session["currentUser"], ...req.body}
     res.send(status)
 }
 

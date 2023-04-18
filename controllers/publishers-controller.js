@@ -40,7 +40,7 @@ const updatePublisher = async (req, res) => {
     }
     const pid = req.params.publisherId;
     const status = await publishersDao.updatePublisher(pid, req.body)
-    req.session["currentUser"] = req.body;
+    req.session["currentUser"] = {...req.session["currentUser"], ...req.body}
     res.send(status)
 }
 
