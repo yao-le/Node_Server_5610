@@ -17,7 +17,7 @@ import collectionsController from "./controllers/collections-controller.js";
 import followsController from "./controllers/follows-controller.js";
 
 // hardcode in server for convenience
-const CONNECTION_STRING = process.env.DB_CONNECTION_STRING || 'mongodb://127.0.0.1:27017/musicApp'
+const CONNECTION_STRING = 'mongodb+srv://zhouliupku:5610final@cluster0.fkuszns.mongodb.net/?retryWrites=true&w=majority'
 mongoose.connect(CONNECTION_STRING);
 
 const app = express();
@@ -28,8 +28,8 @@ app.use(
 );
 
 app.use( cors({
-    credentials: true
-    // origin: "http://localhost:3000", 
+    credentials: true,
+    origin: "http://localhost:3000", 
 })
 );
 
